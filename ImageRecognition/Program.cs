@@ -19,9 +19,9 @@ namespace ImageRecognition
 
         static void Main(string[] args)
         {
+			System.IO.Directory.CreateDirectory(@"c:\image\");
 
-
-            FileSystemWatcher watcher = new FileSystemWatcher();
+			FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = @"c:\image\";
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName;
             watcher.Filter = "*.*";
