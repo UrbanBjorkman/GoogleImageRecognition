@@ -52,15 +52,25 @@ namespace ImageRecognition
             var image = Image.FromFile(e.FullPath);
 
             //Labeldetection
-            var response = client.DetectLabels(image);
-            
-            foreach (var annotation in response)
+            var labelResponse = client.DetectLabels(image);
+            Console.WriteLine(" *** Labels ***");
+
+			foreach (var annotation in labelResponse)
             {
                 if (annotation.Description != null)
                     Console.WriteLine(string.Format("{0:0.00}", annotation.Score) + "% " + annotation.Description);
             }
             Console.WriteLine(" *****************");
-        }
+            Console.WriteLine(" ");
+            Console.WriteLine(" *** Texts ***");
+
+			var textResponse = client.DetectText(image);
+			foreach (var annotation in textResponse)
+			{
+				if (annotation.Description != null)
+					Console.WriteLine(annotation.Description);
+			}
+		}
 
 
         
