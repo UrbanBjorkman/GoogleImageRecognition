@@ -37,6 +37,7 @@ namespace ImageRecognition
 
         private static void FileAdded(object sender, FileSystemEventArgs e)
         {
+			Console.Clear();
             Console.WriteLine(" *** New Image ***");
             //Authentication stuff...
             GoogleCredential credential = null;
@@ -81,6 +82,55 @@ namespace ImageRecognition
 			}
 			
 			Console.WriteLine(" ");
+
+
+
+			//Logodetection
+			var logoResponse = client.DetectLogos(image);
+
+			if (logoResponse.Any())
+			{
+				Console.WriteLine(" ");
+				Console.WriteLine(" *** Logos ***");
+				foreach (var annotation in logoResponse)
+				{
+					if (annotation.Description != null)
+					{
+						Console.WriteLine(annotation.Description);
+						Console.WriteLine("   Bounding polygon: "  + annotation.BoundingPoly);
+					}
+				}
+				Console.WriteLine(" *****************");
+			}
+
+			Console.WriteLine(" ");
+
+
+
+			//Facedetectiono
+			var faceResponse = client.DetectFaces(image);
+
+			if (faceResponse.Any())
+			{
+				Console.WriteLine(" ");
+				Console.WriteLine(" *** Faces ***");
+				var count = 1;
+				foreach (var faceAnnotation in faceResponse)
+				{
+
+						Console.WriteLine("Face {0}:", count++);
+						Console.WriteLine("  Joy: {0}", faceAnnotation.JoyLikelihood);
+						Console.WriteLine("  Anger: {0}", faceAnnotation.AngerLikelihood);
+						Console.WriteLine("  Sorrow: {0}", faceAnnotation.SorrowLikelihood);
+						Console.WriteLine("  Surprise: {0}", faceAnnotation.SurpriseLikelihood);
+
+				}
+				Console.WriteLine(" *****************");
+			}
+
+			Console.WriteLine(" ");
+
+
 		}
 
 
